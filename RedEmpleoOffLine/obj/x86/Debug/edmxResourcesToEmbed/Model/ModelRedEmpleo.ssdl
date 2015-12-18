@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="RedEmpleoOffLineEntities.Store" Provider="System.Data.SQLite.EF6" ProviderManifestToken="data source=&quot;D:\IvanPerilla\Disco local\Documents\Visual Studio 2013\Projects\RedEmpleoOffLine\RedEmpleoOffLine\bin\Debug\RedEmpleoOffLine.sqlite&quot;;password=MintLavo2013$" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Departamento">
+    <Key>
+      <PropertyRef Name="IdCodigo" />
+    </Key>
+    <Property Name="IdCodigo" Type="nvarchar" MaxLength="2147483647" Nullable="false" />
+    <Property Name="nombre" Type="nvarchar" MaxLength="2147483647" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Municipio">
+    <Key>
+      <PropertyRef Name="IdCodigo" />
+    </Key>
+    <Property Name="IdCodigo" Type="nvarchar" MaxLength="5" Nullable="false" />
+    <Property Name="nombre" Type="nvarchar" MaxLength="255" Nullable="false" />
+    <Property Name="department_id" Type="nvarchar" MaxLength="2" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Personas">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="integer" Nullable="false" />
+    <Property Name="PrimerNombre" Type="nvarchar" MaxLength="2147483647" />
+    <Property Name="SegundoNombre" Type="nvarchar" MaxLength="2147483647" Nullable="false" />
+    <Property Name="PrimerApellido" Type="nvarchar" MaxLength="2147483647" />
+    <Property Name="SegundoApellido" Type="nvarchar" MaxLength="2147483647" Nullable="false" />
+    <Property Name="Sexo" Type="nvarchar" MaxLength="2147483647" Nullable="false" />
+    <Property Name="TipoDocumento" Type="nvarchar" MaxLength="2147483647" Nullable="false" />
+    <Property Name="NoDocumento" Type="nvarchar" MaxLength="2147483647" Nullable="false" />
+    <Property Name="FechaNacimiento" Type="datetime" Nullable="false" />
+    <Property Name="Usuario" Type="nvarchar" MaxLength="2147483647" Nullable="false" />
+    <Property Name="Contrasena" Type="nvarchar" MaxLength="2147483647" Nullable="false" />
+    <Property Name="Departamento" Type="nvarchar" MaxLength="2147483647" Nullable="false" />
+    <Property Name="Ciudad" Type="nvarchar" MaxLength="2147483647" Nullable="false" />
+    <Property Name="Direccion" Type="nvarchar" MaxLength="2147483647" Nullable="false" />
+    <Property Name="Barrio" Type="nvarchar" MaxLength="2147483647" />
+    <Property Name="Telefono" Type="nvarchar" MaxLength="2147483647" Nullable="false" />
+    <Property Name="Celular" Type="nvarchar" MaxLength="2147483647" Nullable="false" />
+    <Property Name="CorreoElectronico" Type="nvarchar" MaxLength="2147483647" Nullable="false" />
+    <Property Name="CentroEmpleo" Type="nvarchar" MaxLength="2147483647" Nullable="false" />
+    <Property Name="Estado" Type="bit" />
+    <Property Name="Fecha_Creacion" Type="datetime" Nullable="false" />
+    <Property Name="Fecha_Modificacion" Type="datetime" Nullable="false" />
+    <Property Name="Fecha_Sincronizacion" Type="datetime" />
+    <Property Name="AllowEdit" Type="bit" />
+  </EntityType>
+  <EntityType Name="UsuariosPuntos">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Usuario" Type="nvarchar" MaxLength="2147483647" Nullable="false" />
+    <Property Name="Password" Type="nvarchar" MaxLength="2147483647" Nullable="false" />
+    <Property Name="RedempleoId" Type="integer" Nullable="false" />
+    <Property Name="Id_sedeRedempleo" Type="integer" Nullable="false" />
+    <Property Name="NombrePrestador" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="FechaCreacion" Type="datetime" Nullable="false" />
+    <Property Name="FechaModificacion" Type="datetime" Nullable="false" />
+    <Property Name="FechaIngreso" Type="datetime" Nullable="false" />
+    <Property Name="FechaSalida" Type="datetime" />
+  </EntityType>
+  <Association Name="FK_Municipio_0_0">
+    <End Role="Departamento" Type="Self.Departamento" Multiplicity="1" />
+    <End Role="Municipio" Type="Self.Municipio" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Departamento">
+        <PropertyRef Name="IdCodigo" />
+      </Principal>
+      <Dependent Role="Municipio">
+        <PropertyRef Name="department_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Personas_0_0">
+    <End Role="Municipio" Type="Self.Municipio" Multiplicity="1" />
+    <End Role="Personas" Type="Self.Personas" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Municipio">
+        <PropertyRef Name="IdCodigo" />
+      </Principal>
+      <Dependent Role="Personas">
+        <PropertyRef Name="Ciudad" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="RedEmpleoOffLineEntitiesStoreContainer">
+    <EntitySet Name="Departamento" EntityType="Self.Departamento" store:Type="Tables" />
+    <EntitySet Name="Municipio" EntityType="Self.Municipio" store:Type="Tables" />
+    <EntitySet Name="Personas" EntityType="Self.Personas" store:Type="Tables" />
+    <EntitySet Name="UsuariosPuntos" EntityType="Self.UsuariosPuntos" store:Type="Tables" />
+    <AssociationSet Name="FK_Municipio_0_0" Association="Self.FK_Municipio_0_0">
+      <End Role="Departamento" EntitySet="Departamento" />
+      <End Role="Municipio" EntitySet="Municipio" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Personas_0_0" Association="Self.FK_Personas_0_0">
+      <End Role="Municipio" EntitySet="Municipio" />
+      <End Role="Personas" EntitySet="Personas" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
