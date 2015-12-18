@@ -538,13 +538,22 @@ namespace RedEmpleoOffLine.Model
                     }
                     else
                     {
-                        string pattern = @"^\D?(\d{2})\D?\D?(\d{3})\D?(\d{4})$";
-                        RegexOptions regexOptions = RegexOptions.None;
-                        Regex regex = new Regex(pattern, regexOptions);
+                        Regex regex = new Regex(@"^\d+$");
                         if (!regex.IsMatch(Telefono))
                         {
-                            result = "El telefono debe contener el formato (##) #######";
+                            result = "Campo telefono debe ser un número";
                         }
+                        if (Telefono.ToString().Length != 7)
+                        {
+                            result = "Campo telefono debe contener 7 digitos";
+                        }
+                        //string pattern = @"^\D?(\d{2})\D?\D?(\d{3})\D?(\d{4})$";
+                        //RegexOptions regexOptions = RegexOptions.None;
+                        //Regex regex = new Regex(pattern, regexOptions);
+                        //if (!regex.IsMatch(Telefono))
+                        //{
+                        //    result = "El telefono debe contener el formato (##) #######";
+                        //}
                     }
                 }
             }
@@ -576,12 +585,12 @@ namespace RedEmpleoOffLine.Model
             {
                 if (CorreoElectronico != null)
                 {
-                    if (string.IsNullOrEmpty(CorreoElectronico))
-                    {
-                        result = "Campo Correo electrónico es obligatorio";
-                    }
-                    else
-                    {
+                    //if (string.IsNullOrEmpty(CorreoElectronico))
+                    //{
+                    //    result = "Campo Correo electrónico es obligatorio";
+                    //}
+                    //else
+                    //{
                         if (CorreoElectronico != null)
                         {
                             Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
@@ -589,27 +598,24 @@ namespace RedEmpleoOffLine.Model
                             if (!match.Success)
                                 result = "Correo electrónico no es valido";
                         }
-                    }
+                    //}
                 }
             }
             if (columnName == "CorreoElectronicoRepeat")
             {
                 if (CorreoElectronicoRepeat != null)
                 {
-                    if (string.IsNullOrEmpty(CorreoElectronicoRepeat))
-                    {
-                        result = "Campo confimar correo electrónico es obligatorio";
-                    }
-                    else
-                    {
-                        if (CorreoElectronicoRepeat != null)
+                    //if (string.IsNullOrEmpty(CorreoElectronicoRepeat))
+                    //{
+                    //    result = "Campo confimar correo electrónico es obligatorio";
+                    //}
+                    //else
+                    //{
+                        if (CorreoElectronicoRepeat != CorreoElectronico)
                         {
-                            Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
-                            Match match = regex.Match(CorreoElectronicoRepeat);
-                            if (!match.Success)
-                                result = "Correo electrónico no es valido";
+                            result = "El Correo electrónico no coincide";
                         }
-                    }
+                    //}
                 }
             }
             if (columnName == "Contrasena")
@@ -640,7 +646,44 @@ namespace RedEmpleoOffLine.Model
                     }
                 }
             }
+            if (columnName == "FechaNacimiento")
+            {
+                if (FechaNacimiento != null)
+                {
+                    if (string.IsNullOrEmpty(FechaNacimiento))
+                    {
+                        result = "Campo fecha Nacimiento es obligatorio";
+                    }
+                    else  {
+                        DateTime dob;
+                        DateTimeFormatInfo info = new DateTimeFormatInfo();
+                        info.ShortDatePattern = "dd/MM/yyyy";
+                        bool valid = DateTime.TryParse(FechaNacimiento, info, DateTimeStyles.None, out dob);
+                        if (!valid)
+                        {
+                            DateTime now = DateTime.Today;
+                            int age = now.Year - dob.Year;
+                            if (now < dob.AddYears(age)) age--;
 
+                            if (age < 10)
+                            {
+                                result = "Debes ser  mayor de 10 años";
+                            }
+                            else
+                            {
+                                if (age > 99)
+                                {
+                                    result = "Fecha nacimiento no valida";
+
+                                }
+                            }
+                            result = "El campo Fecha Nacimiento no es valido";
+                        }
+
+                    }
+                }
+            }
+            
             return result;
         }
 

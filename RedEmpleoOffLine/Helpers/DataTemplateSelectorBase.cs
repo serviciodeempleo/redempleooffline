@@ -74,7 +74,7 @@ namespace RedEmpleoOffLine.Helpers
 
             if (row != null)
             {
-                if (row.DataView.Table.Columns.Contains("Panel"))
+                if (row.DataView.Table.Columns.Contains("Editar"))
                 {
                     ViewModel.MainWindow w = GetMainWindows(inContainer);
                     return (DataTemplate)w.FindResource("PanelImage");

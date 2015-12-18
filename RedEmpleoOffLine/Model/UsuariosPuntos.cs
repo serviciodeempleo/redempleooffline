@@ -17,12 +17,12 @@ namespace RedEmpleoOffLine.Model
         public long Id { get; set; }
         public string Usuario { get; set; }
         public string Password { get; set; }
-        public long RedempleoId { get; set; }
+        public long Redempleo_UTENTE { get; set; }
         public long Id_sedeRedempleo { get; set; }
         public string NombrePrestador { get; set; }
-        public System.DateTime FechaCreacion { get; set; }
-        public System.DateTime FechaModificacion { get; set; }
-        public System.DateTime FechaIngreso { get; set; }
+        public Nullable<System.DateTime> FechaCreacion { get; set; }
+        public Nullable<System.DateTime> FechaModificacion { get; set; }
+        public Nullable<System.DateTime> FechaIngreso { get; set; }
         public Nullable<System.DateTime> FechaSalida { get; set; }
     }
 }

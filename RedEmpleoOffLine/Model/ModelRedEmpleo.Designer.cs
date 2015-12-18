@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'd:\ivanperilla\disco local\documents\visual studio 2013\Projects\RedEmpleoOffLine\RedEmpleoOffLine\Model\ModelRedEmpleo.edmx'. 
+﻿// T4 code generation is enabled for model 'D:\09092015\Documents\Visual Studio 2013\Projects\RedEmpleoOffLine\RedEmpleoOffLine\Model\ModelRedEmpleo.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

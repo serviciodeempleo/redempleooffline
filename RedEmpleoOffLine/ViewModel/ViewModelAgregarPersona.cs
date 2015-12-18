@@ -5,6 +5,9 @@ using System.Text;
 using RedEmpleoOffLine.Helpers;
 using RedEmpleoOffLine.Model;
 using RedEmpleoOffLine.View;
+using System.Threading;
+using System.Windows.Input;
+using System.Windows.Interactivity;
 
 namespace RedEmpleoOffLine.ViewModel
 {
@@ -30,6 +33,24 @@ namespace RedEmpleoOffLine.ViewModel
             }
         }
 
+        private ICommand lostFocusCommand;
+
+        public ICommand LostFocusCommand
+        {
+            get
+            {
+                if (lostFocusCommand == null)
+                {
+                    lostFocusCommand = new RelayCommand(param => this.LostTextBoxFocus(), null);
+                }
+                return lostFocusCommand;
+            }
+        }
+
+        private void LostTextBoxFocus()
+        {
+            // do your implementation            
+        }
         //This ViewModel is just to duplicate the last, but showing binding in code behind
         public ViewModelAgregarPersona()
         {
@@ -50,6 +71,7 @@ namespace RedEmpleoOffLine.ViewModel
 
         void NextExample(object parameter)
         {
+            string Usuario = Thread.CurrentPrincipal.Identity.Name;
             var win = new MainWindow();
             win.Show();
             CloseWindow();

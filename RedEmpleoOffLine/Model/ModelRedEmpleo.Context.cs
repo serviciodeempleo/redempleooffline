@@ -27,7 +27,8 @@ namespace RedEmpleoOffLine.Model
     
         public virtual DbSet<Departamento> Departamento { get; set; }
         public virtual DbSet<Municipio> Municipio { get; set; }
-        public virtual DbSet<UsuariosPuntos> UsuariosPuntos { get; set; }
         public virtual DbSet<Personas> Personas { get; set; }
+        public virtual DbSet<Veredas> Veredas { get; set; }
+        public virtual DbSet<UsuariosPuntos> UsuariosPuntos { get; set; }
     }
 }

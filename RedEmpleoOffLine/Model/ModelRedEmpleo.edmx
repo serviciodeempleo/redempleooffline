@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="RedEmpleoOffLineEntities.Store" Provider="System.Data.SQLite.EF6" ProviderManifestToken="data source=&quot;D:\IvanPerilla\Disco local\Documents\Visual Studio 2013\Projects\RedEmpleoOffLine\RedEmpleoOffLine\bin\Debug\RedEmpleoOffLine.sqlite&quot;;password=MintLavo2013$" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="RedEmpleoOffLineModel.Store" Provider="System.Data.SQLite.EF6" ProviderManifestToken="data source=&quot;D:\IvanPerilla\Disco local\Documents\Visual Studio 2013\Projects\RedEmpleoOffLine\RedEmpleoOffLine\bin\Debug\RedEmpleoOffLine.sqlite&quot;;password=MintLavo2013$" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Departamento">
           <Key>
             <PropertyRef Name="IdCodigo" />
@@ -48,6 +48,10 @@
           <Property Name="Fecha_Modificacion" Type="datetime" Nullable="false" />
           <Property Name="Fecha_Sincronizacion" Type="datetime" />
           <Property Name="AllowEdit" Type="bit" />
+          <Property Name="RedEmpleoID" Type="integer" />
+          <Property Name="Respuesta" Type="nvarchar" MaxLength="2147483647" />
+          <Property Name="UsuarioValido" Type="bit" />
+          <Property Name="Vereda" Type="nvarchar" MaxLength="2147483647" />
         </EntityType>
         <EntityType Name="UsuariosPuntos">
           <Key>
@@ -56,13 +60,21 @@
           <Property Name="Id" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Usuario" Type="nvarchar" MaxLength="2147483647" Nullable="false" />
           <Property Name="Password" Type="nvarchar" MaxLength="2147483647" Nullable="false" />
-          <Property Name="RedempleoId" Type="integer" Nullable="false" />
+          <Property Name="Redempleo_UTENTE" Type="integer" Nullable="false" />
           <Property Name="Id_sedeRedempleo" Type="integer" Nullable="false" />
           <Property Name="NombrePrestador" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="FechaCreacion" Type="datetime" Nullable="false" />
-          <Property Name="FechaModificacion" Type="datetime" Nullable="false" />
-          <Property Name="FechaIngreso" Type="datetime" Nullable="false" />
+          <Property Name="FechaCreacion" Type="datetime" />
+          <Property Name="FechaModificacion" Type="datetime" />
+          <Property Name="FechaIngreso" Type="datetime" />
           <Property Name="FechaSalida" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Veredas">
+          <Key>
+            <PropertyRef Name="IdCodigo" />
+          </Key>
+          <Property Name="IdCodigo" Type="nvarchar" MaxLength="8" Nullable="false" />
+          <Property Name="nombre" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="municipality_id" Type="nvarchar" MaxLength="5" Nullable="false" />
         </EntityType>
         <Association Name="FK_Municipio_0_0">
           <End Role="Departamento" Type="Self.Departamento" Multiplicity="1" />
@@ -88,11 +100,12 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="RedEmpleoOffLineEntitiesStoreContainer">
+        <EntityContainer Name="RedEmpleoOffLineModelStoreContainer">
           <EntitySet Name="Departamento" EntityType="Self.Departamento" store:Type="Tables" />
           <EntitySet Name="Municipio" EntityType="Self.Municipio" store:Type="Tables" />
           <EntitySet Name="Personas" EntityType="Self.Personas" store:Type="Tables" />
           <EntitySet Name="UsuariosPuntos" EntityType="Self.UsuariosPuntos" store:Type="Tables" />
+          <EntitySet Name="Veredas" EntityType="Self.Veredas" store:Type="Tables" />
           <AssociationSet Name="FK_Municipio_0_0" Association="Self.FK_Municipio_0_0">
             <End Role="Departamento" EntitySet="Departamento" />
             <End Role="Municipio" EntitySet="Municipio" />
@@ -105,7 +118,7 @@
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="RedEmpleoOffLineEntities" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="RedEmpleoOffLineModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="Departamento">
           <Key>
             <PropertyRef Name="IdCodigo" />
@@ -122,22 +135,7 @@
           <Property Name="nombre" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="department_id" Type="String" MaxLength="2" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Departamento" Relationship="Self.FK_Municipio_0_0" FromRole="Municipio" ToRole="Departamento" />
-          <NavigationProperty Name="Personas" Relationship="RedEmpleoOffLineEntities.FK_Personas_0_0" FromRole="Municipio" ToRole="Personas" />
-        </EntityType>
-        <EntityType Name="UsuariosPuntos">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Usuario" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Password" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="RedempleoId" Type="Int64" Nullable="false" />
-          <Property Name="Id_sedeRedempleo" Type="Int64" Nullable="false" />
-          <Property Name="NombrePrestador" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="FechaCreacion" Type="DateTime" Nullable="false" />
-          <Property Name="FechaModificacion" Type="DateTime" Nullable="false" />
-          <Property Name="FechaIngreso" Type="DateTime" Nullable="false" />
-          <Property Name="FechaSalida" Type="DateTime" />
+          <NavigationProperty Name="Personas" Relationship="RedEmpleoOffLineModel.FK_Personas_0_0" FromRole="Municipio" ToRole="Personas" />
         </EntityType>
         <Association Name="FK_Municipio_0_0">
           <End Role="Departamento" Type="Self.Departamento" Multiplicity="1" />
@@ -151,19 +149,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="RedEmpleoOffLineEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Departamento" EntityType="Self.Departamento" />
           <EntitySet Name="Municipio" EntityType="Self.Municipio" />
-          <EntitySet Name="UsuariosPuntos" EntityType="Self.UsuariosPuntos" />
           <AssociationSet Name="FK_Municipio_0_0" Association="Self.FK_Municipio_0_0">
             <End Role="Departamento" EntitySet="Departamento" />
             <End Role="Municipio" EntitySet="Municipio" />
           </AssociationSet>
-          <EntitySet Name="Personas" EntityType="RedEmpleoOffLineEntities.Personas" />
-          <AssociationSet Name="FK_Personas_0_0" Association="RedEmpleoOffLineEntities.FK_Personas_0_0">
+          <EntitySet Name="Personas" EntityType="RedEmpleoOffLineModel.Personas" />
+          <EntitySet Name="Veredas" EntityType="RedEmpleoOffLineModel.Veredas" />
+          <AssociationSet Name="FK_Personas_0_0" Association="RedEmpleoOffLineModel.FK_Personas_0_0">
             <End Role="Municipio" EntitySet="Municipio" />
             <End Role="Personas" EntitySet="Personas" />
           </AssociationSet>
+          <EntitySet Name="UsuariosPuntos" EntityType="RedEmpleoOffLineModel.UsuariosPuntos" />
         </EntityContainer>
         <EntityType Name="Personas">
           <Key>
@@ -193,11 +192,23 @@
           <Property Name="Fecha_Modificacion" Type="DateTime" Nullable="false" />
           <Property Name="Fecha_Sincronizacion" Type="DateTime" />
           <Property Name="AllowEdit" Type="Boolean" />
-          <NavigationProperty Name="Municipio" Relationship="RedEmpleoOffLineEntities.FK_Personas_0_0" FromRole="Personas" ToRole="Municipio" />
+          <Property Name="RedEmpleoID" Type="Int64" />
+          <Property Name="Respuesta" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+          <Property Name="UsuarioValido" Type="Boolean" />
+          <Property Name="Vereda" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Municipio" Relationship="RedEmpleoOffLineModel.FK_Personas_0_0" FromRole="Personas" ToRole="Municipio" />
+        </EntityType>
+        <EntityType Name="Veredas">
+          <Key>
+            <PropertyRef Name="IdCodigo" />
+          </Key>
+          <Property Name="IdCodigo" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="true" />
+          <Property Name="nombre" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="municipality_id" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_Personas_0_0">
-          <End Type="RedEmpleoOffLineEntities.Municipio" Role="Municipio" Multiplicity="1" />
-          <End Type="RedEmpleoOffLineEntities.Personas" Role="Personas" Multiplicity="*" />
+          <End Type="RedEmpleoOffLineModel.Municipio" Role="Municipio" Multiplicity="1" />
+          <End Type="RedEmpleoOffLineModel.Personas" Role="Personas" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Municipio">
               <PropertyRef Name="IdCodigo" />
@@ -207,14 +218,29 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="UsuariosPuntos">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Usuario" Type="String" Nullable="false" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+          <Property Name="Redempleo_UTENTE" Type="Int64" Nullable="false" />
+          <Property Name="Id_sedeRedempleo" Type="Int64" Nullable="false" />
+          <Property Name="NombrePrestador" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FechaCreacion" Type="DateTime" />
+          <Property Name="FechaModificacion" Type="DateTime" />
+          <Property Name="FechaIngreso" Type="DateTime" />
+          <Property Name="FechaSalida" Type="DateTime" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="RedEmpleoOffLineEntitiesStoreContainer" CdmEntityContainer="Entities">
+        <EntityContainerMapping StorageEntityContainer="RedEmpleoOffLineModelStoreContainer" CdmEntityContainer="RedEmpleoOffLineEntities">
           <EntitySetMapping Name="Departamento">
-            <EntityTypeMapping TypeName="RedEmpleoOffLineEntities.Departamento">
+            <EntityTypeMapping TypeName="RedEmpleoOffLineModel.Departamento">
               <MappingFragment StoreEntitySet="Departamento">
                 <ScalarProperty Name="IdCodigo" ColumnName="IdCodigo" />
                 <ScalarProperty Name="nombre" ColumnName="nombre" />
@@ -222,7 +248,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Municipio">
-            <EntityTypeMapping TypeName="RedEmpleoOffLineEntities.Municipio">
+            <EntityTypeMapping TypeName="RedEmpleoOffLineModel.Municipio">
               <MappingFragment StoreEntitySet="Municipio">
                 <ScalarProperty Name="IdCodigo" ColumnName="IdCodigo" />
                 <ScalarProperty Name="nombre" ColumnName="nombre" />
@@ -230,25 +256,13 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="UsuariosPuntos">
-            <EntityTypeMapping TypeName="RedEmpleoOffLineEntities.UsuariosPuntos">
-              <MappingFragment StoreEntitySet="UsuariosPuntos">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Usuario" ColumnName="Usuario" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="RedempleoId" ColumnName="RedempleoId" />
-                <ScalarProperty Name="Id_sedeRedempleo" ColumnName="Id_sedeRedempleo" />
-                <ScalarProperty Name="NombrePrestador" ColumnName="NombrePrestador" />
-                <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
-                <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
-                <ScalarProperty Name="FechaIngreso" ColumnName="FechaIngreso" />
-                <ScalarProperty Name="FechaSalida" ColumnName="FechaSalida" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Personas">
-            <EntityTypeMapping TypeName="RedEmpleoOffLineEntities.Personas">
+            <EntityTypeMapping TypeName="RedEmpleoOffLineModel.Personas">
               <MappingFragment StoreEntitySet="Personas">
+                <ScalarProperty Name="Vereda" ColumnName="Vereda" />
+                <ScalarProperty Name="UsuarioValido" ColumnName="UsuarioValido" />
+                <ScalarProperty Name="Respuesta" ColumnName="Respuesta" />
+                <ScalarProperty Name="RedEmpleoID" ColumnName="RedEmpleoID" />
                 <ScalarProperty Name="AllowEdit" ColumnName="AllowEdit" />
                 <ScalarProperty Name="Fecha_Sincronizacion" ColumnName="Fecha_Sincronizacion" />
                 <ScalarProperty Name="Fecha_Modificacion" ColumnName="Fecha_Modificacion" />
@@ -272,6 +286,31 @@
                 <ScalarProperty Name="PrimerApellido" ColumnName="PrimerApellido" />
                 <ScalarProperty Name="SegundoNombre" ColumnName="SegundoNombre" />
                 <ScalarProperty Name="PrimerNombre" ColumnName="PrimerNombre" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Veredas">
+            <EntityTypeMapping TypeName="RedEmpleoOffLineModel.Veredas">
+              <MappingFragment StoreEntitySet="Veredas">
+                <ScalarProperty Name="municipality_id" ColumnName="municipality_id" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="IdCodigo" ColumnName="IdCodigo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UsuariosPuntos">
+            <EntityTypeMapping TypeName="RedEmpleoOffLineModel.UsuariosPuntos">
+              <MappingFragment StoreEntitySet="UsuariosPuntos">
+                <ScalarProperty Name="FechaSalida" ColumnName="FechaSalida" />
+                <ScalarProperty Name="FechaIngreso" ColumnName="FechaIngreso" />
+                <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+                <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+                <ScalarProperty Name="NombrePrestador" ColumnName="NombrePrestador" />
+                <ScalarProperty Name="Id_sedeRedempleo" ColumnName="Id_sedeRedempleo" />
+                <ScalarProperty Name="Redempleo_UTENTE" ColumnName="Redempleo_UTENTE" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Usuario" ColumnName="Usuario" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

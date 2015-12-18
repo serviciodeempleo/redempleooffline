@@ -5,6 +5,7 @@ using System.Text;
 using RedEmpleoOffLine.Helpers;
 using RedEmpleoOffLine.Model;
 using RedEmpleoOffLine.View;
+using System.Threading;
 
 namespace RedEmpleoOffLine.ViewModel
 {
@@ -50,6 +51,7 @@ namespace RedEmpleoOffLine.ViewModel
 
         void NextExample(object parameter)
         {
+            string Usuario = Thread.CurrentPrincipal.Identity.Name;
             var win = new MainWindow();
             win.Show();
             CloseWindow();

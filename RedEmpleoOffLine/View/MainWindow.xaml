@@ -3,32 +3,35 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:helpers="clr-namespace:RedEmpleoOffLine.Helpers"
         x:Class="RedEmpleoOffLine.ViewModel.MainWindow" WindowStartupLocation="CenterScreen"
-        Title="RedEmpleoOffLine" Height="649.7" Width="1100" Background="White" 
-        ResizeMode="NoResize" Loaded="Window_Loaded">
+        Title="RedEmpleo Local" Background="White" Loaded="Window_Loaded" MinWidth="800" MinHeight="600" AllowDrop="True" ScrollViewer.HorizontalScrollBarVisibility="Visible" ScrollViewer.VerticalScrollBarVisibility="Visible" Height="564.179" Width="794.03">
     <Window.Resources>
         <helpers:BoolToImageConverter x:Key="ConvertBoolToImage" />
         <helpers:StringToImageConverter x:Key="ConvertStringToImage" />
+        <helpers:BooltotooltipConverter x:Key="Convertbooltotooltip" />
+        <helpers:BooltotooltipFlagConverter x:Key="ConvertbooltotooltipFLag" />
         <helpers:ViewToImageConverter x:Key="ConvertViewToImage" />
         <helpers:SelectedItemToItemsSource x:Key="SelectedItemToItemsSource"/>
         <DataTemplate x:Key="StatusImage" x:Name="mStatusImage">
-            <Image Width="16" Height="16" Margin="3,0" Source="{Binding Converter={StaticResource ConvertBoolToImage}}" />
+            <Image Width="16" ToolTip="{Binding Converter={StaticResource ConvertbooltotooltipFLag}}" Height="16" Margin="3,0" Source="{Binding Converter={StaticResource ConvertBoolToImage}}" />
         </DataTemplate>
         <DataTemplate x:Key="PanelImage" x:Name="mPnaelImage">
-            <Button Click="Edit_Click" Background="Transparent" Grid.Column="8" Command="{Binding   Path=Cedula}"  Tag="{Binding RelativeSource={RelativeSource AncestorType=DataGridRow}}">
+            <Button ToolTip="{Binding Converter={StaticResource Convertbooltotooltip}}" Click="Edit_Click" Background="Transparent" Grid.Column="8" Command="{Binding   Path=Cedula}"  Tag="{Binding RelativeSource={RelativeSource AncestorType=DataGridRow}}">
+                
                 <Image Width="16" Height="16" Margin="3,0" Source="{Binding Converter={StaticResource ConvertStringToImage}}" />
             </Button>
         </DataTemplate>
         <DataTemplate x:Key="ViewImage" x:Name="mViewlImage">
-            <Button Background="Transparent" Click="View_Click"  Grid.Column="7" Command="{Binding   Path=Ver}"  Tag="{Binding RelativeSource={RelativeSource AncestorType=DataGridRow}}">
+            <Button ToolTip="Ver"  Background="Transparent" Click="View_Click"  Grid.Column="7" Command="{Binding   Path=Ver}"  Tag="{Binding RelativeSource={RelativeSource AncestorType=DataGridRow}}">
                 <Image Width="16" Height="16" Margin="3,0" Source="{Binding Converter={StaticResource ConvertViewToImage}}" />
             </Button>
         </DataTemplate>
+
     </Window.Resources>
-    <Grid x:Name="GridPersonas"  Height="609" VerticalAlignment="Top">
-        <Image x:Name="Logo"   HorizontalAlignment="Left" Height="59" Margin="12,10,0,0" VerticalAlignment="Top" Width="150"/>
-        <DataGrid Name="DataGridPersonas" AutoGenerateColumns="True" Height="457" Margin="12,77,12,0" IsReadOnly="True" VerticalAlignment="Top" />
-        <TextBox Height="23" HorizontalAlignment="Left" Margin="873,49,0,0" Name="textBox1" VerticalAlignment="Top" Width="209" TextChanged="textBox1_TextChanged" />
-        <Button Content="Agregar oferente" VerticalAlignment="Top" HorizontalAlignment="Right" FontWeight="Bold"  Click="Button_Click" Margin="0,46,277,0" Height="26" Width="105">
+    <Grid x:Name="GridPersonas" MinHeight="566" MinWidth="790">
+        <Image x:Name="Logo"   HorizontalAlignment="Left" Height="59" Margin="10,10,0,0" VerticalAlignment="Top" Width="172"/>
+        <DataGrid Name="DataGridPersonas" AutoGenerateColumns="True" Margin="12,77,12,70" IsReadOnly="True" />
+        <TextBox HorizontalAlignment="Right" Margin="0,43,12,0" Name="textBox1" VerticalAlignment="Top" TextChanged="textBox1_TextChanged" MinWidth="150" MinHeight="20" />
+        <Button Content="Agregar oferente" VerticalAlignment="Top" HorizontalAlignment="Right" FontWeight="Bold"  Click="Button_Click" Margin="0,40,218,0">
             <Button.Foreground>
                 <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
                     <GradientStop Color="Black"/>
@@ -68,11 +71,11 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
-        <Label x:Name="LebelUsuario" Content="" HorizontalAlignment="Left" Margin="896,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.5,0.654" FontSize="16" FontWeight="Bold" FontStyle="Italic" Width="186"/>
-        <Label Content="Buscar:" HorizontalAlignment="Left" Margin="822,49,0,0" VerticalAlignment="Top" Width="51" Height="23"/>
-        <Label Content="Lista de oferentes registrados" HorizontalAlignment="Left" Height="51" Margin="244,26,0,0" VerticalAlignment="Top" Width="418" FontSize="26" FontWeight="Bold" FontFamily="MS Reference Sans Serif"/>
-        <Image x:Name="Logo_back"   HorizontalAlignment="Left" Height="80" Margin="0,539,0,-10" VerticalAlignment="Top" Width="1094"/>
-        <Button Content="Sincronizar" HorizontalAlignment="Left" Margin="698,12,0,0" VerticalAlignment="Top" Width="171" Height="26" Click="Sincronizar">
+        <Label x:Name="LebelUsuario" Content="" HorizontalAlignment="Left" Margin="639,7,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.5,0.654" FontSize="14" FontWeight="Bold" FontStyle="Italic" Width="137"/>
+        <Label Content="Buscar:" HorizontalAlignment="Right" Margin="0,40,164,0" VerticalAlignment="Top" Width="50" Height="23"/>
+        <Label Content="Lista de oferentes registrados" HorizontalAlignment="Left" Margin="202,1,0,0" VerticalAlignment="Top" FontWeight="Bold" FontFamily="MS Reference Sans Serif" FontSize="18"/>
+        <Image x:Name="Logo_back"   HorizontalAlignment="Left" Margin="0" VerticalAlignment="Bottom" MinWidth="800" MinHeight="50"/>
+        <Button Content="Sincronizar" HorizontalAlignment="Right" Margin="0,7,224,0" VerticalAlignment="Top" Click="Sincronizar" RenderTransformOrigin="-2.455,0.5">
             <Button.Foreground>
                 <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
                     <GradientStop Color="Black"/>
@@ -112,6 +115,7 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
+        <Label Content="Usuario:" HorizontalAlignment="Left" Margin="584,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="3.75,0.207" Width="59" FontWeight="Bold"/>
     </Grid>
 
 </Window>

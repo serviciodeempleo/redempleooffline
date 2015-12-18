@@ -38,6 +38,10 @@ namespace RedEmpleoOffLine.Model
         public System.DateTime Fecha_Modificacion { get; set; }
         public Nullable<System.DateTime> Fecha_Sincronizacion { get; set; }
         public Nullable<bool> AllowEdit { get; set; }
+        public Nullable<long> RedEmpleoID { get; set; }
+        public string Respuesta { get; set; }
+        public Nullable<bool> UsuarioValido { get; set; }
+        public string Vereda { get; set; }
     
         public virtual Municipio Municipio { get; set; }
     }
