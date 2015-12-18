@@ -1,0 +1,230 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:helpers="clr-namespace:RedEmpleoOffLine.Helpers"
+         xmlns:Model="clr-namespace:RedEmpleoOffLine.Model"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="RedEmpleoOffLine.ViewModel.AgregarPersona" WindowStartupLocation="CenterScreen"
+        Background="White"
+        Title="RedEmpleo Local -Agregar Persona"
+         x:Name="RedEmpleoOffLine"  MinWidth="800" MinHeight="600" AllowDrop="True" ScrollViewer.HorizontalScrollBarVisibility="Visible" Height="564.179" Width="794.03" ResizeMode="NoResize" >
+
+    <Window.Resources>
+        <!-- Error template for changing behaviour -->
+        <ControlTemplate x:Key="validationTemplate">
+            <DockPanel>
+                <TextBlock Foreground="Red" FontSize="20"><Run Text="!"/></TextBlock>
+                <AdornedElementPlaceholder/>
+            </DockPanel>
+        </ControlTemplate>
+        <ControlTemplate x:Key="ErrorTemplate">
+            <DockPanel LastChildFill="True">
+                <Border BorderBrush="Red" BorderThickness="1">
+                    <AdornedElementPlaceholder />
+                </Border>
+            </DockPanel>
+        </ControlTemplate>
+        <Style TargetType="{x:Type TextBox}">
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#FFDEDD" />
+                </Trigger>
+                <Trigger Property="IsFocused" Value="True" >
+                    <Setter Property="Background" Value="#FFDEDD" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="{x:Type DatePickerTextBox}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <TextBox x:Name="PART_TextBox"
+     Text="{Binding SelectedDate, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}, StringFormat=dd/MMM/yyyy}" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <helpers:ErrorsToMessageConverter x:Key="eToMConverter"/>
+        <Model:ErrorCollectionConverter x:Key="ErrorCollectionConverter"/>
+        <Style x:Key="textBoxInError" TargetType="{x:Type TextBox}">
+            <Style.Resources>
+                <Style TargetType="{x:Type ListBoxItem}">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate>
+                                <TextBlock Text="{Binding ErrorContent}"/>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Style.Resources>
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="true">
+                    <Setter Property="ToolTip" Value="{Binding (Validation.Errors).CurrentItem.ErrorContent, Converter={StaticResource ErrorCollectionConverter}, RelativeSource={x:Static RelativeSource.Self}}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    <Grid HorizontalAlignment="Center" MinHeight="566" MinWidth="790">
+        <Grid.DataContext>
+            <Model:Person/>
+        </Grid.DataContext>
+        <Label x:Name="LebelUsuario" Content="" HorizontalAlignment="Left" Margin="632,3,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.5,0.654" FontSize="14" FontWeight="Bold" FontStyle="Italic" Width="162"/>
+        <Image x:Name="Logo"   HorizontalAlignment="Left" Height="59" VerticalAlignment="Top" Width="172" Margin="10,9,0,0"/>
+        <Label Content="SOLICITUD DE INSCRIPCIÓN" HorizontalAlignment="Left" Margin="268,3,0,0" VerticalAlignment="Top" Width="254" Background="#FFDD1721" FontSize="14" Foreground="White" Height="27"/>
+        <Label Content="(*) campos obligatorios" HorizontalAlignment="Left" Margin="215,75,0,0" VerticalAlignment="Top" Height="25" Width="134" RenderTransformOrigin="0.5,0.5"/>
+        <Label Content="Diligencie la ficha con los datos y presione en el botón guardar para confirmar el registro.&#xA;En caso de dificultad en el diligenciamiento de la información por favor contáctenos" HorizontalAlignment="Left" Margin="268,30,0,0" VerticalAlignment="Top" Width="497" Height="44" Background="#FFEEF3FF" Foreground="#FF020202"/>
+        <Label Content="DATOS PERSONALES" HorizontalAlignment="Left" Margin="10,74,0,0" VerticalAlignment="Top" Width="200" Background="#FFDD1721" FontSize="14" Foreground="White"/>
+        <Label Content="Primer Nombre*" HorizontalAlignment="Left" Margin="10,107,0,0" VerticalAlignment="Top" RenderTransformOrigin="-2.789,0.327"/>
+        <Label Content="Segundo Nombre" HorizontalAlignment="Left" Margin="10,145,0,0" VerticalAlignment="Top"/>
+        <Label Content="Primer Apellido*" HorizontalAlignment="Left" Margin="10,189,0,0" VerticalAlignment="Top"/>
+        <Label Content="Segundo Apellido" HorizontalAlignment="Left" Margin="10,227,0,0" VerticalAlignment="Top"/>
+        <Label Content="Sexo* " HorizontalAlignment="Left" Margin="10,267,0,0" VerticalAlignment="Top"/>
+        <Label Content="Tipo Documento*" HorizontalAlignment="Left" Margin="10,308,0,0" VerticalAlignment="Top"/>
+        <Label Content="Número Documento*" HorizontalAlignment="Left" Margin="10,355,0,0" VerticalAlignment="Top"/>
+        <Label Content="Repetir Número*" HorizontalAlignment="Left" Margin="10,397,0,0" VerticalAlignment="Top"/>
+        <Label Content="Fecha de Nacimiento*(dd/mm/aaaa)" HorizontalAlignment="Left" Margin="10,442,0,0" VerticalAlignment="Top"/>
+        <Label Content="Correo Electrónico" HorizontalAlignment="Left" Margin="420,425,0,0" VerticalAlignment="Top"/>
+        <Label Content="Repetir Correo Electrónico" HorizontalAlignment="Left" Margin="422,463,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="PrimerNombre" Focusable="True"  Text="{Binding PrimerNombre, Mode=TwoWay, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" HorizontalAlignment="Left" Height="20" Margin="216,107,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="184"/>
+        <TextBlock Margin="17,127,392,418"  Foreground="Red" FontWeight="Bold"   Text="{Binding (Validation.Errors).CurrentItem.ErrorContent, Converter={StaticResource ErrorCollectionConverter}, ElementName=PrimerNombre}" MinHeight="24" MinWidth="382" />
+        <TextBox x:Name="SegundoNombre" Text="{Binding SegundoNombre, Mode=TwoWay, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" HorizontalAlignment="Left" Height="20" Margin="216,147,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="184"/>
+        <TextBlock x:Name= "SegundoNombreError" Margin="18,168,392,377"  Foreground="Red" FontWeight="Bold"   Text="{Binding (Validation.Errors).CurrentItem.ErrorContent, Converter={StaticResource ErrorCollectionConverter}, ElementName=SegundoNombre}" MinWidth="382" MinHeight="24" />
+        <TextBox x:Name="PrimerApellido" Text="{Binding PrimerApellido, Mode=TwoWay, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" HorizontalAlignment="Left" Height="20" Margin="216,189,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="184"/>
+        <TextBlock Margin="16,210,394,335"  Foreground="Red" FontWeight="Bold"   Text="{Binding (Validation.Errors).CurrentItem.ErrorContent, Converter={StaticResource ErrorCollectionConverter}, ElementName=PrimerApellido}" MinWidth="382" MinHeight="24" />
+        <TextBox x:Name="SegundoApellido"  Text="{Binding SegundoApellido, Mode=TwoWay, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"  HorizontalAlignment="Left" Height="20" Margin="216,229,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="184"/>
+        <TextBlock x:Name= "SegundoApellidoError" Margin="18,250,392,295"  Foreground="Red" FontWeight="Bold"   Text="{Binding (Validation.Errors).CurrentItem.ErrorContent, Converter={StaticResource ErrorCollectionConverter}, ElementName=SegundoApellido}" MinWidth="382" MinHeight="24" />
+        <RadioButton x:Name="Femenino" GroupName="Sexo" Content="Femenino" HorizontalAlignment="Left" Margin="218,274,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.218,0.4" Checked="Femenino_Checked" />
+        <RadioButton x:Name="Masculino" GroupName="Sexo" Content="Masculino" HorizontalAlignment="Left" Margin="322,274,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.218,0.4" Checked="Masculino_Checked"/>
+        <TextBlock x:Name="Sexo" Text="Campo sexo es obligatorio" Margin="16,290,0,0"  Foreground="Red" FontWeight="Bold" MinWidth="382" MinHeight="24" HorizontalAlignment="Left" VerticalAlignment="Top" Visibility="Hidden" />
+        <ComboBox x:Name="TipoDocumento" HorizontalAlignment="Left" Margin="216,311,0,0" VerticalAlignment="Top" Width="184" Text="Seleccione Tipo Documento" Height="20" SelectionChanged="TipoDocumento_SelectionChanged">
+            <ComboBoxItem Tag="CC" Content="CÉDULA DE CIUDADANÍA"/>
+            <ComboBoxItem Tag="TI" Content="TARJETA DE IDENTIDAD"/>
+            <ComboBoxItem Tag="PA" Content="PASAPORTE"/>
+            <ComboBoxItem Tag="CE" Content="CÉDULA EXTRANJERÍA"/>
+        </ComboBox>
+        <TextBlock x:Name="TipoDocumentoError" Text="Campo Tipo Documento es obligatorio" Margin="16,334,0,0"  Foreground="Red" FontWeight="Bold" MinWidth="382" MinHeight="24" HorizontalAlignment="Left" VerticalAlignment="Top" Visibility="Hidden" />
+        <TextBox x:Name="NoDocumento" CommandManager.PreviewExecuted="textBox_PreviewExecuted" LostFocus="Documento_LostFocus" TextChanged="NoDocumento_TextChanged"  Text="{Binding NoDocumento, NotifyOnTargetUpdated=True, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" HorizontalAlignment="Left" Height="20" Margin="216,356,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="184" />
+        <PasswordBox x:Name="NoDocumentoPASS" GotFocus="NoDocumentoPASS_GotFocus"  HorizontalAlignment="Left" Height="20" Margin="218,355,0,0" VerticalAlignment="Top" Width="182" PasswordChanged="DocumentoHandler" Visibility="Hidden"/>
+        <TextBlock Margin="18,381,392,164"  Foreground="Red" FontWeight="Bold"   Text="{Binding (Validation.Errors).CurrentItem.ErrorContent, Converter={StaticResource ErrorCollectionConverter}, ElementName=NoDocumento}" MinWidth="382" MinHeight="24" />
+        <TextBlock x:Name="NoDocumentoError" Margin="18,377,392,168"  Foreground="Red" FontWeight="Bold"  MinWidth="382" MinHeight="24" />
+        <TextBox x:Name="RepetirNoDocumento" GotFocus="RepetirNoDocumento_GotFocus" LostFocus="RepetirNoDocumento_LostFocus" Text="{Binding RepetirNoDocumento, Mode=TwoWay, NotifyOnTargetUpdated=True, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" HorizontalAlignment="Left" Height="20" Margin="216,397,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="184" IsManipulationEnabled="False" TextChanged="RepetirNoDocumento_TextChanged"/>
+        <TextBlock x:Name="RepetirNoDocumentoError" Margin="17,418,0,0"  Foreground="Red" FontWeight="Bold"   Text="{Binding (Validation.Errors).CurrentItem.ErrorContent, Converter={StaticResource ErrorCollectionConverter}, ElementName=RepetirNoDocumento}" MinWidth="382" MinHeight="24" HorizontalAlignment="Left" VerticalAlignment="Top" />
+        <DatePicker x:Name="FechaNacimientodata" Text="{Binding FechaNacimientodata, Mode=TwoWay, NotifyOnTargetUpdated=True, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" HorizontalAlignment="Left" Margin="217,442,0,0" VerticalAlignment="Top" SelectedDateChanged="DatePicker_SelectedDateChanged" Height="26" Width="176"/>
+        <TextBox x:Name="FechaNacimiento" Visibility="Hidden" Text="{Binding FechaNacimiento, NotifyOnTargetUpdated=True, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" HorizontalAlignment="Left" Height="20" Margin="228,380,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="280" />
+        <TextBlock x:Name="FechaNacimientoError" Margin="10,461,0,0"  Foreground="Red" FontWeight="Bold"   Text="{Binding (Validation.Errors).CurrentItem.ErrorContent, Converter={StaticResource ErrorCollectionConverter}, ElementName=FechaNacimiento}" MinWidth="382" MinHeight="24" HorizontalAlignment="Left" VerticalAlignment="Top" />
+        <Label Content="DATOS DE CONTACTO" HorizontalAlignment="Left" Margin="420,73,0,0" VerticalAlignment="Top" Width="199" Background="#FFDD1721" FontSize="14" Foreground="White"/>
+        <Label Content="Departamento*" HorizontalAlignment="Left" Margin="420,109,0,0" VerticalAlignment="Top"/>
+        <Label Content="Ciudad*" HorizontalAlignment="Left" Margin="420,152,0,0" VerticalAlignment="Top"/>
+        <Label Content="Dirección*" HorizontalAlignment="Left" Margin="420,222,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.096"/>
+        <Label Content="Barrio" HorizontalAlignment="Left" Margin="420,265,0,0" VerticalAlignment="Top"/>
+        <Label Content="Número de Teléfono*" HorizontalAlignment="Left" Margin="420,306,0,0" VerticalAlignment="Top"/>
+        <Label Content="Número de Teléfono celular*" HorizontalAlignment="Left" Margin="420,341,0,0" VerticalAlignment="Top"/>
+        <ComboBox x:Name="ListDepartamento"  HorizontalAlignment="Left" Margin="585,109,0,0" VerticalAlignment="Top" Width="197" Text="" SelectionChanged="ListDepartamento_SelectionChanged" />
+        <TextBlock x:Name= "DepartamentoError" Margin="425,132,-15,0"   Foreground="Red" FontWeight="Bold"   Text="Campo departamento es obigatorio" MinWidth="382" MinHeight="24" HorizontalAlignment="Left" VerticalAlignment="Top" Visibility="Hidden" />
+        <ComboBox x:Name="Ciudad" HorizontalAlignment="Left" Margin="585,153,0,0" VerticalAlignment="Top" Width="197" SelectionChanged="ListCiudad_SelectionChanged"/>
+        <TextBlock x:Name= "CiudadError"  Margin="425,177,-13,368"  Foreground="Red" FontWeight="Bold"   Text="Campo ciudad es obigatorio" MinWidth="380" MinHeight="24" Visibility="Hidden" />
+        <TextBox x:Name="Direccion" HorizontalAlignment="Left" Height="20" Margin="585,226,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="197" Text="{Binding Direccion, Mode=TwoWay, NotifyOnTargetUpdated=True, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"/>
+        <TextBlock x:Name= "DireccionError" Margin="426,244,0,0"  Foreground="Red" FontWeight="Bold"   Text="{Binding (Validation.Errors).CurrentItem.ErrorContent, Converter={StaticResource ErrorCollectionConverter}, ElementName=Direccion}" MinWidth="350" MinHeight="24" VerticalAlignment="Top" HorizontalAlignment="Left" />
+        <TextBox x:Name="Barrio" HorizontalAlignment="Left" Height="20" Margin="585,265,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="197" Text="{Binding Barrio, Mode=TwoWay, NotifyOnTargetUpdated=True, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"/>
+        <TextBlock x:Name= "BarrioError" Margin="430,285,12,260"  Foreground="Red" FontWeight="Bold"   Text="{Binding (Validation.Errors).CurrentItem.ErrorContent, Converter={StaticResource ErrorCollectionConverter}, ElementName=Barrio}" MinWidth="350" MinHeight="24" />
+        <TextBox x:Name="Telefono" HorizontalAlignment="Left" Height="19" Margin="585,306,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="197" Text="{Binding Telefono, Mode=TwoWay, NotifyOnTargetUpdated=True, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"/>
+        <TextBlock x:Name= "TelefonoError" Margin="422,326,0,0"  Foreground="Red" FontWeight="Bold" Validation.ErrorTemplate="{StaticResource validationTemplate}"  Text="{Binding (Validation.Errors).CurrentItem.ErrorContent, Converter={StaticResource ErrorCollectionConverter}, ElementName=Telefono}" MinWidth="355" MinHeight="24" VerticalAlignment="Top" HorizontalAlignment="Left" />
+        <TextBox x:Name="Celular" Margin="585,347,0,0" TextWrapping="Wrap" VerticalAlignment="Top"  Text="{Binding Celular, Mode=TwoWay, NotifyOnTargetUpdated=True, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" MinWidth="197" MinHeight="20" HorizontalAlignment="Left" />
+        <TextBlock x:Name= "CelularError" Margin="429,367,13,178"  Foreground="Red" FontWeight="Bold"   Text="{Binding (Validation.Errors).CurrentItem.ErrorContent, Converter={StaticResource ErrorCollectionConverter}, ElementName=Celular}" MinWidth="350" MinHeight="24" />
+        <TextBox  x:Name="CorreoElectronico" CommandManager.PreviewExecuted="CorreoElectronico_PreviewExecuted" LostFocus="CorreoElectronico_LostFocus" GotFocus="CorreoElectronico_GotFocus" HorizontalAlignment="Left" Height="20" Margin="585,426,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="197"  Text="{Binding CorreoElectronico, Mode=TwoWay, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" TextChanged="CorreoElectronico_TextChanged"/>
+        <PasswordBox  x:Name="CorreoElectronicoPASS" GotFocus="CorreoElectronicoPASS_GotFocus" HorizontalAlignment="Left" Height="20" Margin="585,426,0,0"  VerticalAlignment="Top" Width="197" Visibility="Hidden"/>
+        <TextBlock x:Name="CorreoElectronicoError"  Margin="426,447,0,0"  Foreground="Red" FontWeight="Bold" MinWidth="355" MinHeight="24" HorizontalAlignment="Left" VerticalAlignment="Top" />
+        <TextBlock  Margin="426,447,0,0"  Foreground="Red" FontWeight="Bold"   Text="{Binding (Validation.Errors).CurrentItem.ErrorContent, Converter={StaticResource ErrorCollectionConverter}, ElementName=CorreoElectronico}" MinWidth="355" MinHeight="24" HorizontalAlignment="Left" VerticalAlignment="Top" />
+        <TextBox x:Name="CorreoElectronicoRepeat" LostFocus="CorreoElectronicoRepeat_LostFocus"  HorizontalAlignment="Left" Height="20" Margin="585,466,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="197" Text="{Binding CorreoElectronicoRepeat, Mode=TwoWay, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+        <TextBlock Margin="425,488,0,0"  Foreground="Red" FontWeight="Bold"   Text="{Binding (Validation.Errors).CurrentItem.ErrorContent, Converter={StaticResource ErrorCollectionConverter}, ElementName=CorreoElectronicoRepeat}" MinWidth="355" MinHeight="24" HorizontalAlignment="Left" VerticalAlignment="Top" />
+        <TextBlock x:Name="CorreoElectronicoRepeatError" Margin="425,488,0,0"  Foreground="Red" FontWeight="Bold"  MinWidth="355" MinHeight="24" HorizontalAlignment="Left" VerticalAlignment="Top" />
+
+        <Button x:Name="GuardarPersona" Panel.ZIndex="2" Content="Guardar" HorizontalAlignment="Left" Margin="111,488,0,0" VerticalAlignment="Top" Width="93" Height="22" Click="Button_Click" VerticalContentAlignment="Center" FontSize="14" FontStretch="SemiCondensed" FontFamily="Arial">
+            <Button.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                    <GradientStop Color="Black"/>
+                    <GradientStop Color="White" Offset="0.13"/>
+                </LinearGradientBrush>
+            </Button.Foreground>
+            <Button.Effect>
+                <DropShadowEffect Color="#FF763D3D"/>
+            </Button.Effect>
+            <Button.Template>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="Border" CornerRadius="1,8,1,8" BorderThickness="2" Background="#FFDD1721" BorderBrush="#FFDD1721" ClipToBounds="True" >
+                        <Border.Effect>
+                            <DropShadowEffect Color="#FF873434" />
+                        </Border.Effect>
+                        <ContentPresenter Margin="2" HorizontalAlignment="Center" VerticalAlignment="Center" RecognizesAccessKey="True">
+                            <ContentPresenter.OpacityMask>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0" ColorInterpolationMode="ScRgbLinearInterpolation">
+                                    <GradientStop Color="#FF700F0F" Offset="0"/>
+                                    <GradientStop Color="#FFE22E2E" Offset="1"/>
+                                </LinearGradientBrush>
+                            </ContentPresenter.OpacityMask>
+                        </ContentPresenter>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsKeyboardFocused" Value="true">
+                            <Setter TargetName="Border" Property="BorderBrush" Value="LightGray" />
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter TargetName="Border" Property="Background" Value="Red" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter TargetName="Border" Property="Background" Value="#D7910000" />
+                            <Setter TargetName="Border" Property="BorderBrush" Value="#FF6E5151" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Button Panel.ZIndex="2" Content="       Volver"  HorizontalAlignment="Left"  VerticalAlignment="Top" Width="71" Height="23"  Margin="21,487,0,0" Click="Button_Click_1" Padding="40,1,1,1" HorizontalContentAlignment="Right">
+            <Button.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                    <GradientStop Color="Black"/>
+                    <GradientStop Color="White" Offset="0.13"/>
+                </LinearGradientBrush>
+            </Button.Foreground>
+            <Button.Effect>
+                <DropShadowEffect Color="#FF763D3D"/>
+            </Button.Effect>
+            <Button.Template>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="Border" CornerRadius="1,8,1,8" BorderThickness="2" Background="#FFDD1721" BorderBrush="#FFDD1721" ClipToBounds="True" >
+                        <Border.Effect>
+                            <DropShadowEffect Color="#FF873434" />
+                        </Border.Effect>
+                        <ContentPresenter Margin="2" HorizontalAlignment="Center" VerticalAlignment="Center" RecognizesAccessKey="True">
+                            <ContentPresenter.OpacityMask>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0" ColorInterpolationMode="ScRgbLinearInterpolation">
+                                    <GradientStop Color="#FF700F0F" Offset="0"/>
+                                    <GradientStop Color="#FFE22E2E" Offset="1"/>
+                                </LinearGradientBrush>
+                            </ContentPresenter.OpacityMask>
+                        </ContentPresenter>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsKeyboardFocused" Value="true">
+                            <Setter TargetName="Border" Property="BorderBrush" Value="LightGray" />
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter TargetName="Border" Property="Background" Value="Red" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter TargetName="Border" Property="Background" Value="#D7910000" />
+                            <Setter TargetName="Border" Property="BorderBrush" Value="#FF6E5151" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Image x:Name="Logo_back"   HorizontalAlignment="Left" Margin="0" VerticalAlignment="Bottom" MinWidth="800" MinHeight="50"/>
+        <Label Content="Usuario:" HorizontalAlignment="Left" Margin="578,5,0,0" VerticalAlignment="Top" RenderTransformOrigin="3.75,0.207" Width="63" FontWeight="Bold"/>
+        <Image Panel.ZIndex="2" x:Name="Volver" Margin="29,490,742,56" VerticalAlignment="Center" RenderTransformOrigin="0,0.5" MinWidth="23" MinHeight="23" HorizontalAlignment="Center" Width="23" Height="25" />
+        <Label Content="Vereda" HorizontalAlignment="Left" Margin="422,189,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.538,1.731"/>
+        <ComboBox x:Name="Vereda" HorizontalAlignment="Left" Margin="585,193,0,0" VerticalAlignment="Top" Width="197" Text=""/>
+        <Label Content="(Diligencie el  campo Correo Electrónico para  recibir información de  ofertas&#xD;&#xA; laborales.)" HorizontalAlignment="Left" Margin="416,387,0,0" VerticalAlignment="Top" Height="36" Width="364" FontSize="10" Foreground="#FF8D0600"/>
+
+    </Grid>
+</Window>
